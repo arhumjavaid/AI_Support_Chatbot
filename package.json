@@ -1,0 +1,31 @@
+{
+  "name": "whatsapp-ai-support-bot",
+  "version": "1.0.0",
+  "description": "WhatsApp-style AI customer support bot demo — Node + TypeScript + Express + OpenAI SDK (Gemini-compatible).",
+  "type": "module",
+  "scripts": {
+    "dev:server": "tsx watch src/server.ts",
+    "dev:client": "npm --prefix client run dev",
+    "dev": "concurrently -n server,client -c green,cyan \"npm run dev:server\" \"npm run dev:client\"",
+    "build": "npm --prefix client install && npm --prefix client run build",
+    "typecheck": "tsc --noEmit",
+    "start": "tsx src/server.ts"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "openai": "^4.67.3"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.7.5",
+    "concurrently": "^9.0.1",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3"
+  }
+}
