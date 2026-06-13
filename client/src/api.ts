@@ -32,3 +32,27 @@ export async function sendChat(
   const data = (await res.json()) as { reply: string };
   return data.reply;
 }
+
+/**
+ * Sends a free-form blob of text to the backend and gets back a structured
+ * BusinessProfile (name, description, FAQs) for the setup form to pre-fill.
+ *
+ * @throws Error with a user-friendly message if extraction fails.
+ */
+export async function extractProfile(text: string): Promise<BusinessProfile> {
+  const res = await fetch("/api/extract", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text }),
+  });
+
+  if (!res.ok) {
+    const data = (await res.json().catch(() => null)) as
+      | { error?: string }
+      | null;
+    throw new Error(data?.error || "Couldn't auto-fill from that text.");
+  }
+
+  const data = (await res.json()) as { profile: BusinessProfile };
+  return data.profile;
+}

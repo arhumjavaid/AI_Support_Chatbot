@@ -5,6 +5,7 @@
 // ----------------------------------------------------------------------------
 
 import { useState } from "react";
+import { extractProfile } from "../api";
 import type { BusinessProfile, FAQ } from "../types";
 
 interface Props {
@@ -32,6 +33,35 @@ export function BusinessSetup({ onStart }: Props) {
   const [faqs, setFaqs] = useState<FAQ[]>(
     Array.from({ length: 5 }, () => ({ question: "", answer: "" }))
   );
+
+  // "Auto-fill with AI": the owner pastes a blob of text and we ask the model
+  // to structure it into the fields below (which stay editable for review).
+  const [rawText, setRawText] = useState("");
+  const [isExtracting, setIsExtracting] = useState(false);
+  const [extractError, setExtractError] = useState<string | null>(null);
+
+  async function handleAutoFill() {
+    if (!rawText.trim() || isExtracting) return;
+    setIsExtracting(true);
+    setExtractError(null);
+    try {
+      const profile = await extractProfile(rawText);
+      // Populate the form; pad FAQs out to at least one editable row.
+      setBusinessName(profile.businessName);
+      setDescription(profile.description);
+      setFaqs(
+        profile.faqs.length > 0
+          ? profile.faqs
+          : [{ question: "", answer: "" }]
+      );
+    } catch (err) {
+      setExtractError(
+        err instanceof Error ? err.message : "Couldn't auto-fill from that text."
+      );
+    } finally {
+      setIsExtracting(false);
+    }
+  }
 
   function updateFaq(index: number, field: keyof FAQ, value: string) {
     setFaqs((prev) =>
@@ -85,6 +115,32 @@ export function BusinessSetup({ onStart }: Props) {
             ✨ Load example business
           </button>
         </header>
+
+        {/* Auto-fill: paste everything once, let the AI organise the fields. */}
+        <section className="autofill">
+          <label className="field-label" htmlFor="autofill-text">
+            ⚡ Quick start — paste anything about your business
+          </label>
+          <textarea
+            id="autofill-text"
+            value={rawText}
+            onChange={(e) => setRawText(e.target.value)}
+            placeholder="Paste your business info, website copy, or rough notes here — name, what you sell, hours, prices, policies... The AI will fill in the fields below for you to review."
+            rows={4}
+          />
+          <button
+            type="button"
+            className="autofill-btn"
+            onClick={handleAutoFill}
+            disabled={isExtracting || rawText.trim().length < 10}
+          >
+            {isExtracting ? "✨ Filling in the fields…" : "✨ Auto-fill with AI"}
+          </button>
+          {extractError && <div className="inline-error">{extractError}</div>}
+          <div className="autofill-divider">
+            <span>or fill in manually</span>
+          </div>
+        </section>
 
         <form onSubmit={handleSubmit}>
           <label className="field">

@@ -10,7 +10,8 @@
 import express, { type Application, type Request, type Response } from "express";
 import cors from "cors";
 import { chatRouter } from "./chatRouter.js";
-import { chatLimiter } from "./rateLimit.js";
+import { extractRouter } from "./extractRouter.js";
+import { aiLimiter } from "./rateLimit.js";
 
 export function createApp(): Application {
   const app = express();
@@ -31,12 +32,13 @@ export function createApp(): Application {
     res.json({ status: "ok" });
   });
 
-  // Rate-limit the expensive AI route (protects your API quota). Must run
-  // before the router so it can reject early.
-  app.use("/api/chat", chatLimiter);
+  // Rate-limit the expensive AI routes (protects your API quota). Must run
+  // before the routers so it can reject early. Both AI routes share one budget.
+  app.use(["/api/chat", "/api/extract"], aiLimiter);
 
-  // Mount the chat routes under /api.
+  // Mount the API routes under /api.
   app.use("/api", chatRouter);
+  app.use("/api", extractRouter);
 
   return app;
 }

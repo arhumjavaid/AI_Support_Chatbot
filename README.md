@@ -11,6 +11,7 @@ A business owner pastes their business name, what they sell, and 5–10 FAQs. Th
 ## ✨ Features
 
 - **Prompt builder** — enter your business name, description, and FAQs; it becomes the AI's knowledge base.
+- **⚡ Auto-fill with AI** — paste any blob of text (website copy, rough notes) and the AI structures it into the name, description, and FAQs for you to review — no manual typing.
 - **WhatsApp-style chat UI** — green outgoing bubbles, white incoming bubbles, mobile-first.
 - **Smart support agent** — answers from your FAQs and politely declines to invent facts it doesn't know.
 - **Typing indicator** — animated "…" while the AI is thinking.

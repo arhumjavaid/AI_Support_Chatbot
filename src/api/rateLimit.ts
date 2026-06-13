@@ -1,9 +1,10 @@
 // ----------------------------------------------------------------------------
-// Rate limiting for the chat endpoint.
+// Rate limiting for the AI endpoints (chat + auto-fill extract).
 //
-// The chat route calls the AI model on every request, which costs API quota.
-// This middleware caps how many requests a single IP can make in a time window,
-// protecting your key from abuse / runaway loops on a public demo URL.
+// Both routes call the AI model, which costs API quota. This middleware caps
+// how many requests a single IP can make in a time window, protecting your key
+// from abuse / runaway loops on a public demo URL. Applying the same instance
+// to both routes means they share one combined budget per IP.
 //
 // NOTE on serverless: this uses an in-memory store, which is per-instance.
 // On Vercel each warm function instance counts independently and the count
@@ -18,8 +19,8 @@ import rateLimit from "express-rate-limit";
 const windowMs = Number(process.env.RATE_LIMIT_WINDOW_MS) || 60_000; // 1 minute
 const maxRequests = Number(process.env.RATE_LIMIT_MAX) || 20; // per IP per window
 
-/** Limits POST /api/chat to `maxRequests` per IP per `windowMs`. */
-export const chatLimiter = rateLimit({
+/** Limits the AI routes to `maxRequests` per IP per `windowMs` (shared budget). */
+export const aiLimiter = rateLimit({
   windowMs,
   limit: maxRequests,
   standardHeaders: "draft-7", // adds RateLimit-* response headers

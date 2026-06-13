@@ -78,6 +78,74 @@ body {
   font-size: 14px;
 }
 
+/* Auto-fill block ("paste everything" → AI structures it). */
+.autofill {
+  margin: 18px 0 8px;
+  padding: 16px;
+  background: #f6fbf4;
+  border: 1px solid #d8efce;
+  border-radius: 12px;
+}
+
+.autofill textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d1d7db;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  margin: 6px 0 10px;
+  resize: vertical;
+}
+
+.autofill textarea:focus {
+  outline: none;
+  border-color: var(--wa-green-light);
+}
+
+.autofill-btn {
+  width: 100%;
+  background: var(--wa-green);
+  color: #fff;
+  border: none;
+  border-radius: 22px;
+  padding: 11px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.autofill-btn:disabled {
+  background: #a7c4bf;
+  cursor: not-allowed;
+}
+
+.inline-error {
+  color: #b71c1c;
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.autofill-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.autofill-divider::before,
+.autofill-divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #d8efce;
+}
+
+.autofill-divider span {
+  padding: 0 10px;
+}
+
 .field {
   display: block;
   margin: 16px 0;
