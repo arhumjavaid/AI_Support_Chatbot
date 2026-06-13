@@ -141,6 +141,8 @@ This repo is Vercel-ready.
 | `GEMINI_API_KEY` | ✅ Yes   | —                  | Your Google Gemini API key.                    |
 | `GEMINI_MODEL`   | No       | `gemini-2.0-flash` | Which Gemini model to use.                      |
 | `PORT`           | No       | `3001`             | Local backend port (frontend proxy expects 3001). |
+| `RATE_LIMIT_MAX` | No       | `20`               | Max chat requests per IP per window.            |
+| `RATE_LIMIT_WINDOW_MS` | No | `60000`            | Rate-limit window in milliseconds (1 min).      |
 
 ---
 
@@ -158,7 +160,8 @@ This repo is Vercel-ready.
 
 ## 📝 Notes
 
-- This is a **portfolio demo**, intentionally kept simple — no auth, no database, no rate limiting.
+- This is a **portfolio demo**, intentionally kept simple — no auth, no database.
+- **Rate limiting** is enabled on `/api/chat` (per-IP, in-memory) to protect your API quota on a public URL. Tune it with `RATE_LIMIT_MAX` / `RATE_LIMIT_WINDOW_MS`. The in-memory store is per serverless instance — fine for a demo; swap in Upstash Redis (`store` option in `src/api/rateLimit.ts`) if you need globally-consistent limits.
 - Swapping from Gemini to real OpenAI is a one-line change in `src/config/env.ts` (base URL) plus the key.
 - The whole AI personality lives in `src/agents/promptBuilder.ts` — a great place to tweak tone and guardrails.
 # AI_Support_Chatbot
