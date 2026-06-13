@@ -78,6 +78,55 @@ body {
   font-size: 14px;
 }
 
+/* One-click "Try a live demo" buttons. */
+.try-demos {
+  margin: 18px 0 4px;
+}
+
+.try-demos-label {
+  display: block;
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+.try-demos-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.try-btn {
+  flex: 1 1 auto;
+  min-width: 120px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #fff;
+  border: 1.5px solid var(--wa-green-light);
+  color: var(--wa-green-dark);
+  border-radius: 22px;
+  padding: 11px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.05s;
+}
+
+.try-btn:hover {
+  background: #eafaf0;
+}
+
+.try-btn:active {
+  transform: scale(0.98);
+}
+
+.try-emoji {
+  font-size: 16px;
+}
+
 /* Auto-fill block ("paste everything" → AI structures it). */
 .autofill {
   margin: 18px 0 8px;

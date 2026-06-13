@@ -10,6 +10,7 @@ A business owner pastes their business name, what they sell, and 5–10 FAQs. Th
 
 ## ✨ Features
 
+- **One-click live demos** — "Try it as a clothing store / restaurant / tutoring centre" buttons drop you straight into a working chat with a realistic pre-filled business, so anyone can see the value with zero typing.
 - **Prompt builder** — enter your business name, description, and FAQs; it becomes the AI's knowledge base.
 - **⚡ Auto-fill with AI** — paste any blob of text (website copy, rough notes) and the AI structures it into the name, description, and FAQs for you to review — no manual typing.
 - **WhatsApp-style chat UI** — green outgoing bubbles, white incoming bubbles, mobile-first.
